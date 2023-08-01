@@ -18,8 +18,16 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/api", function (req, res) {
-    const now = new Date();
+app.get("/api/:date?", function (req, res) {
+    let input = req.params.date;
+    let now;
+    if (input === undefined) {
+        now = new Date();
+    } else if (/^\d+$/.test(input)) {
+        now = new Date(parseInt(input));
+    } else {
+        now = new Date(input);
+    }
     res.json({unix: now.getTime(), utc: now.toUTCString()});
 });
 
