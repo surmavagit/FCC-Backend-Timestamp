@@ -28,7 +28,13 @@ app.get("/api/:date?", function (req, res) {
     } else {
         now = new Date(input);
     }
-    res.json({unix: now.getTime(), utc: now.toUTCString()});
+
+    const utc = now.toUTCString();
+    if (utc === "Invalid Date") {
+        res.json({error: utc});
+    } else {
+        res.json({unix: now.getTime(), utc: utc});
+    }
 });
 
 // your first API endpoint... 
